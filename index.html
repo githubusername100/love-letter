@@ -66,24 +66,23 @@
       min-height:100%;
       display:grid;
       place-items:center;
-      padding:28px 16px;
+      padding:28px 16px 60px;
       position:relative;
       z-index:1;
     }
 
-    /* ===== Envelope Scene ===== */
     .scene{
-      width:min(920px, 100%);
+      width:min(980px, 100%);
       display:grid;
       place-items:center;
-      gap:18px;
+      gap:14px;
       text-align:center;
     }
 
     .title{
       margin:0;
       font-family:"Playfair Display", Georgia, serif;
-      font-size: clamp(28px, 3.4vw, 46px);
+      font-size: clamp(28px, 3.4vw, 48px);
       letter-spacing:-.02em;
       line-height:1.05;
     }
@@ -93,40 +92,59 @@
       font-size:14px;
     }
 
-    .tap{
-      display:inline-flex;
+    .controls{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
       align-items:center;
       justify-content:center;
-      gap:8px;
-      margin-top:2px;
-      color:var(--accent);
-      font-weight:700;
-      font-size:13px;
-      user-select:none;
+      margin-top:4px;
     }
 
-    /* Envelope container */
+    .btn{
+      cursor:pointer;
+      border:1px solid rgba(225,29,72,.22);
+      background:#fff;
+      color:var(--accent);
+      padding:10px 14px;
+      border-radius:12px;
+      font-weight:800;
+      font-size:13px;
+      transition: transform .12s ease, box-shadow .12s ease;
+      box-shadow: 0 10px 30px rgba(225,29,72,.10);
+    }
+    .btn:hover{ transform: translateY(-1px); }
+    .btn:active{ transform: translateY(0px); }
+
+    .hint{
+      color:var(--muted);
+      font-size:12px;
+      margin:0;
+    }
+
+    /* Envelope area */
     .envelopeWrap{
       position:relative;
-      width:min(520px, 92vw);
-      height:360px;
+      width:min(560px, 92vw);
+      height:300px;
       display:grid;
       place-items:end center;
       perspective: 1200px;
+      margin-top:10px;
     }
 
-    /* The letter (paper) that slides out */
+    /* Letter that slides out (initially sits above envelope) */
     .letterCard{
       position:absolute;
       bottom:56px;
-      width:min(520px, 92vw);
-      border-radius:22px;
+      width:min(900px, 92vw);
+      border-radius:26px;
       background:var(--paper);
       backdrop-filter: blur(10px);
       border:1px solid rgba(255,255,255,.8);
       box-shadow: var(--shadow);
       overflow:hidden;
-      transform: translateY(120px) scale(.98);
+      transform: translateY(160px) scale(.98);
       opacity:0;
       transition: transform 900ms cubic-bezier(.2,.9,.2,1), opacity 600ms ease;
       z-index:1;
@@ -172,7 +190,7 @@
 
     .badge{
       font-size:12px;
-      font-weight:700;
+      font-weight:800;
       color:var(--accent);
       background:#fff;
       border:1px solid rgba(225,29,72,.25);
@@ -201,36 +219,15 @@
       border-top:1px solid rgba(15,23,42,.08);
     }
     .sig-name{
-      font-weight:800;
+      font-weight:900;
       color:var(--accent);
       letter-spacing:.02em;
     }
 
-    .actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
-    button{
-      cursor:pointer;
-      border:1px solid rgba(225,29,72,.22);
-      background:#fff;
-      color:var(--accent);
-      padding:10px 12px;
-      border-radius:12px;
-      font-weight:800;
-      font-size:13px;
-      transition: transform .12s ease, box-shadow .12s ease;
-      box-shadow: 0 10px 30px rgba(225,29,72,.10);
-    }
-    button:hover{ transform: translateY(-1px); }
-    button:active{ transform: translateY(0px); }
-
-    /* ===== Envelope ===== */
+    /* Envelope */
     .envelope{
       position:relative;
-      width:min(520px, 92vw);
+      width:min(560px, 92vw);
       height:210px;
       border-radius:18px;
       background: linear-gradient(180deg, var(--env), var(--env2));
@@ -238,12 +235,10 @@
       box-shadow: 0 22px 60px rgba(225,29,72,.16);
       overflow:hidden;
       cursor:pointer;
-      transform: translateZ(0);
       user-select:none;
       z-index:2;
     }
 
-    /* bottom pocket */
     .pocket{
       position:absolute;
       inset:0;
@@ -253,7 +248,6 @@
         linear-gradient(180deg, rgba(255,255,255,.5), rgba(255,255,255,.0));
     }
 
-    /* side triangles */
     .leftTri, .rightTri{
       position:absolute;
       bottom:0;
@@ -263,24 +257,23 @@
     }
     .leftTri{
       left:0;
-      border-width:0 0 210px 260px;
+      border-width:0 0 210px 280px;
       border-color: transparent transparent rgba(225,29,72,.10) transparent;
     }
     .rightTri{
       right:0;
-      border-width:0 260px 210px 0;
+      border-width:0 280px 210px 0;
       border-color: transparent transparent rgba(225,29,72,.10) transparent;
     }
 
-    /* top flap */
     .flap{
       position:absolute;
       left:0; right:0;
       top:0;
       height:0; width:0;
       margin:auto;
-      border-left: 260px solid transparent;
-      border-right:260px solid transparent;
+      border-left: 280px solid transparent;
+      border-right:280px solid transparent;
       border-top:130px solid rgba(225,29,72,.14);
       transform-origin: top center;
       transform: rotateX(0deg);
@@ -288,7 +281,6 @@
       filter: drop-shadow(0 18px 22px rgba(225,29,72,.18));
     }
 
-    /* seal */
     .seal{
       position:absolute;
       left:50%;
@@ -306,7 +298,6 @@
       transition: transform 600ms ease, opacity 400ms ease;
     }
 
-    /* instruction glow */
     .shine{
       position:absolute;
       inset:-60%;
@@ -316,27 +307,48 @@
       pointer-events:none;
     }
 
-    /* Open state */
-    .opened .flap{
-      transform: rotateX(170deg);
-    }
-    .opened .seal{
-      transform: translateX(-50%) scale(.9);
-      opacity:.0;
-    }
+    /* OPENED STATE */
+    .opened .flap{ transform: rotateX(170deg); }
+    .opened .seal{ transform: translateX(-50%) scale(.9); opacity:0; }
     .opened .letterCard{
-      transform: translateY(-165px) scale(1);
+      transform: translateY(-155px) scale(1);
       opacity:1;
     }
 
-    /* smooth entrance */
-    .letterCard{ will-change: transform, opacity; }
+    /* After opening, we also let page naturally scroll by pulling the card into normal flow */
+    .opened + .letterSection{
+      margin-top: 26px;
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events:auto;
+    }
 
-    /* small screen tweaks */
-    @media (max-width:520px){
+    /* Real scrollable section (visible only after open) */
+    .letterSection{
+      width:min(980px, 100%);
+      opacity:0;
+      transform: translateY(10px);
+      transition: opacity 400ms ease, transform 400ms ease;
+      pointer-events:none;
+    }
+    .letterSection .letterCard{
+      position:relative;
+      bottom:auto;
+      width:100%;
+      transform:none;
+      opacity:1;
+    }
+
+    @media (max-width:600px){
       .content{ padding:18px; }
       header{ flex-direction:column; align-items:flex-start; }
-      .envelopeWrap{ height:380px; }
+      .envelopeWrap{ height:320px; }
+      .flap{
+        border-left: 240px solid transparent;
+        border-right:240px solid transparent;
+      }
+      .leftTri{ border-width:0 0 210px 240px; }
+      .rightTri{ border-width:0 240px 210px 0; }
     }
   </style>
 </head>
@@ -345,26 +357,71 @@
   <div class="hearts" aria-hidden="true" id="hearts"></div>
 
   <div class="wrap">
-    <section class="scene">
-      <h1 class="title">For You, With All My Heart</h1>
-      <p class="subtitle">A little message I’ve been holding close.</p>
-      <div class="tap">💌 Click the envelope to open</div>
+    <div style="width:min(980px,100%);">
+      <section class="scene">
+        <h1 class="title">For You, With All My Heart</h1>
+        <p class="subtitle">A little message I’ve been holding close.</p>
 
-      <div class="envelopeWrap" id="scene">
-        <!-- Letter that slides out -->
-        <article class="letterCard" aria-label="Love letter">
+        <div class="controls">
+          <button class="btn" type="button" id="toggleBtn">Open envelope 💌</button>
+          <button class="btn" type="button" id="scrollBtn" style="display:none;">Go to letter ↓</button>
+        </div>
+        <p class="hint">Tip: Click the envelope too — it’s interactive.</p>
+
+        <div class="envelopeWrap" id="scene">
+          <!-- Small preview letter that slides out of the envelope -->
+          <article class="letterCard" aria-label="Love letter preview">
+            <div class="glow"></div>
+            <div class="content">
+              <header>
+                <div>
+                  <h2>A Letter for You</h2>
+                  <div class="meta" id="dateLine"></div>
+                </div>
+                <div class="badge">💗 always & forever</div>
+              </header>
+
+              <!-- EDIT YOUR LETTER HERE -->
+              <div class="letter" id="letterPreview">
+My love,
+
+I don’t know how to fit everything I feel into words, but I want to try anyway…
+
+(Scroll down for the full letter.)
+              </div>
+
+              <div class="signature">
+                <div class="sig-name">— Elvis</div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Envelope -->
+          <div class="envelope" id="envelope" role="button" aria-label="Open envelope" tabindex="0">
+            <div class="shine"></div>
+            <div class="pocket"></div>
+            <div class="leftTri"></div>
+            <div class="rightTri"></div>
+            <div class="flap"></div>
+            <div class="seal">❤</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FULL LETTER (scrollable, appears after opening) -->
+      <section class="letterSection" id="letterSection">
+        <article class="letterCard" aria-label="Full love letter">
           <div class="glow"></div>
           <div class="content">
             <header>
               <div>
-                <h2>A Letter for You</h2>
-                <div class="meta" id="dateLine"></div>
+                <h2>The Full Letter</h2>
+                <div class="meta" id="dateLine2"></div>
               </div>
-              <div class="badge">💗 always & forever</div>
+              <div class="badge">💗 for you</div>
             </header>
 
-            <!-- EDIT YOUR LETTER HERE -->
-            <div class="letter" id="letter">
+            <div class="letter" id="letterFull">
                 Dear, Anne-Coralie Madison Cheron
                 My pookie lookie shoo my love I want fo say
                 And i love how amazing, perfect and different you are
@@ -384,40 +441,28 @@
                 Elvis Josiah your Mimi
             </div>
 
-            <!-- EDIT YOUR NAME HERE -->
             <div class="signature">
-              <div class="sig-name">— Elvis</div>
-
+              <div class="sig-name">— Elvis Josiah, your Mimi</div>
               <div class="actions">
-                <button type="button" id="copyBtn">Copy letter</button>
+                <button class="btn" type="button" id="copyBtn">Copy letter</button>
               </div>
             </div>
           </div>
         </article>
-
-        <!-- Envelope -->
-        <div class="envelope" id="envelope" role="button" aria-label="Open envelope" tabindex="0">
-          <div class="shine"></div>
-          <div class="pocket"></div>
-          <div class="leftTri"></div>
-          <div class="rightTri"></div>
-          <div class="flap"></div>
-          <div class="seal">❤</div>
-        </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </div>
 
   <script>
-    // Date line
+    // Dates
     const d = new Date();
-    document.getElementById("dateLine").textContent =
-      d.toLocaleDateString(undefined, { year:"numeric", month:"long", day:"numeric" });
+    const dateStr = d.toLocaleDateString(undefined, { year:"numeric", month:"long", day:"numeric" });
+    document.getElementById("dateLine").textContent = dateStr;
+    document.getElementById("dateLine2").textContent = dateStr;
 
-    // Copy letter text
+    // Copy full letter
     document.getElementById("copyBtn").addEventListener("click", async () => {
-      const text = document.getElementById("letter").innerText.trim() + "\n\n" +
-                   document.querySelector(".sig-name").innerText.trim();
+      const text = document.getElementById("letterFull").innerText.trim() + "\n\n— Elvis Josiah, your Mimi";
       try{
         await navigator.clipboard.writeText(text);
         const btn = document.getElementById("copyBtn");
@@ -449,10 +494,35 @@
     // Envelope open/close
     const scene = document.getElementById("scene");
     const envelope = document.getElementById("envelope");
+    const toggleBtn = document.getElementById("toggleBtn");
+    const scrollBtn = document.getElementById("scrollBtn");
+    const letterSection = document.getElementById("letterSection");
+
+    function setOpen(isOpen){
+      scene.classList.toggle("opened", isOpen);
+      letterSection.style.display = isOpen ? "block" : "block"; // keep layout stable
+      scrollBtn.style.display = isOpen ? "inline-flex" : "none";
+      toggleBtn.textContent = isOpen ? "Close envelope ✉️" : "Open envelope 💌";
+
+      if(isOpen){
+        // reveal section (CSS transition)
+        requestAnimationFrame(() => letterSection.classList.add("show"));
+        // scroll a bit so the reveal feels intentional
+        setTimeout(() => {
+          letterSection.scrollIntoView({behavior:"smooth", block:"start"});
+        }, 350);
+      }else{
+        letterSection.classList.remove("show");
+        window.scrollTo({top:0, behavior:"smooth"});
+      }
+    }
 
     function toggleOpen(){
-      scene.classList.toggle("opened");
+      const isOpen = !scene.classList.contains("opened");
+      setOpen(isOpen);
     }
+
+    toggleBtn.addEventListener("click", toggleOpen);
     envelope.addEventListener("click", toggleOpen);
     envelope.addEventListener("keydown", (e) => {
       if(e.key === "Enter" || e.key === " "){
@@ -461,8 +531,16 @@
       }
     });
 
-    // Auto-open slightly after load (romantic reveal). Comment out if you want manual only.
-    setTimeout(() => scene.classList.add("opened"), 900);
+    scrollBtn.addEventListener("click", () => {
+      letterSection.scrollIntoView({behavior:"smooth", block:"start"});
+    });
+
+    // IMPORTANT: no auto-open anymore ✅
   </script>
+
+  <style>
+    /* tiny helper for reveal */
+    .letterSection.show{ opacity:1; transform: translateY(0); pointer-events:auto; }
+  </style>
 </body>
 </html>
