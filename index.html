@@ -5,19 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>A Letter for You</title>
   <meta name="description" content="A love letter." />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --bg1:#fff1f2;  /* rose-50 */
-      --bg2:#ffe4e6;  /* rose-100 */
-      --ink:#0f172a;  /* slate-900 */
-      --muted:#64748b;/* slate-500 */
-      --accent:#e11d48; /* rose-600 */
+      --bg1:#fff1f2;
+      --bg2:#ffe4e6;
+      --ink:#0f172a;
+      --muted:#64748b;
+      --accent:#e11d48;
       --paper:#ffffffcc;
       --shadow: 0 30px 80px rgba(15, 23, 42, .18);
+
+      --env:#fff;
+      --env2:#ffe4e6;
+      --envEdge: rgba(225,29,72,.18);
     }
 
     *{ box-sizing:border-box; }
@@ -28,8 +33,6 @@
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", sans-serif;
       color:var(--ink);
       overflow-x:hidden;
-
-      /* dreamy background */
       background:
         radial-gradient(1200px 700px at 10% 10%, rgba(244, 63, 94, .18), transparent 55%),
         radial-gradient(900px 600px at 90% 80%, rgba(244, 63, 94, .14), transparent 55%),
@@ -43,19 +46,20 @@
       pointer-events:none;
       overflow:hidden;
       z-index:0;
-      opacity:.7;
+      opacity:.75;
     }
     .heart{
       position:absolute;
       font-size:18px;
-      filter: blur(.1px);
       animation: floatUp linear infinite;
       opacity:.55;
+      filter: blur(.1px);
+      text-shadow: 0 12px 30px rgba(225,29,72,.25);
     }
     @keyframes floatUp{
-      from{ transform: translateY(20vh) translateX(0) rotate(0deg); opacity:0; }
+      from{ transform: translateY(25vh) translateX(0) rotate(0deg); opacity:0; }
       10%{ opacity:.55; }
-      to{ transform: translateY(-120vh) translateX(40px) rotate(18deg); opacity:0; }
+      to{ transform: translateY(-130vh) translateX(50px) rotate(20deg); opacity:0; }
     }
 
     .wrap{
@@ -67,18 +71,67 @@
       z-index:1;
     }
 
-    .card{
-      width:min(900px, 100%);
-      border-radius:26px;
+    /* ===== Envelope Scene ===== */
+    .scene{
+      width:min(920px, 100%);
+      display:grid;
+      place-items:center;
+      gap:18px;
+      text-align:center;
+    }
+
+    .title{
+      margin:0;
+      font-family:"Playfair Display", Georgia, serif;
+      font-size: clamp(28px, 3.4vw, 46px);
+      letter-spacing:-.02em;
+      line-height:1.05;
+    }
+    .subtitle{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .tap{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      margin-top:2px;
+      color:var(--accent);
+      font-weight:700;
+      font-size:13px;
+      user-select:none;
+    }
+
+    /* Envelope container */
+    .envelopeWrap{
+      position:relative;
+      width:min(520px, 92vw);
+      height:360px;
+      display:grid;
+      place-items:end center;
+      perspective: 1200px;
+    }
+
+    /* The letter (paper) that slides out */
+    .letterCard{
+      position:absolute;
+      bottom:56px;
+      width:min(520px, 92vw);
+      border-radius:22px;
       background:var(--paper);
       backdrop-filter: blur(10px);
       border:1px solid rgba(255,255,255,.8);
       box-shadow: var(--shadow);
       overflow:hidden;
-      position:relative;
+      transform: translateY(120px) scale(.98);
+      opacity:0;
+      transition: transform 900ms cubic-bezier(.2,.9,.2,1), opacity 600ms ease;
+      z-index:1;
     }
 
-    /* subtle corner glow */
     .glow{
       position:absolute;
       inset:-40%;
@@ -86,11 +139,11 @@
       pointer-events:none;
       z-index:0;
     }
-
     .content{
       position:relative;
       z-index:1;
-      padding:28px;
+      padding:26px;
+      text-align:left;
     }
 
     header{
@@ -102,10 +155,10 @@
       border-bottom:1px solid rgba(15,23,42,.08);
     }
 
-    h1{
+    h2{
       margin:0;
-      font-family: "Playfair Display", Georgia, serif;
-      font-size: clamp(28px, 3.2vw, 44px);
+      font-family:"Playfair Display", Georgia, serif;
+      font-size: clamp(22px, 2.4vw, 34px);
       letter-spacing:-.02em;
       line-height:1.05;
     }
@@ -114,11 +167,12 @@
       margin-top:8px;
       color:var(--muted);
       font-size:13px;
+      font-family: Inter, system-ui, sans-serif;
     }
 
     .badge{
       font-size:12px;
-      font-weight:600;
+      font-weight:700;
       color:var(--accent);
       background:#fff;
       border:1px solid rgba(225,29,72,.25);
@@ -129,28 +183,26 @@
     }
 
     .letter{
-      margin-top:18px;
-      font-family: "Playfair Display", Georgia, serif;
+      margin-top:16px;
+      font-family:"Playfair Display", Georgia, serif;
       font-size: clamp(18px, 1.2vw, 22px);
-      line-height:1.9;
+      line-height:1.95;
       white-space:pre-wrap;
     }
 
     .signature{
-      margin-top:20px;
+      margin-top:18px;
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:12px;
       flex-wrap:wrap;
-      padding-top:14px;
+      padding-top:12px;
       border-top:1px solid rgba(15,23,42,.08);
     }
-
     .sig-name{
-      font-weight:700;
+      font-weight:800;
       color:var(--accent);
-      font-family: Inter, system-ui, sans-serif;
       letter-spacing:.02em;
     }
 
@@ -160,7 +212,6 @@
       flex-wrap:wrap;
       align-items:center;
     }
-
     button{
       cursor:pointer;
       border:1px solid rgba(225,29,72,.22);
@@ -168,7 +219,7 @@
       color:var(--accent);
       padding:10px 12px;
       border-radius:12px;
-      font-weight:700;
+      font-weight:800;
       font-size:13px;
       transition: transform .12s ease, box-shadow .12s ease;
       box-shadow: 0 10px 30px rgba(225,29,72,.10);
@@ -176,67 +227,185 @@
     button:hover{ transform: translateY(-1px); }
     button:active{ transform: translateY(0px); }
 
-    .hint{
-      color:var(--muted);
-      font-size:12px;
+    /* ===== Envelope ===== */
+    .envelope{
+      position:relative;
+      width:min(520px, 92vw);
+      height:210px;
+      border-radius:18px;
+      background: linear-gradient(180deg, var(--env), var(--env2));
+      border:1px solid var(--envEdge);
+      box-shadow: 0 22px 60px rgba(225,29,72,.16);
+      overflow:hidden;
+      cursor:pointer;
+      transform: translateZ(0);
+      user-select:none;
+      z-index:2;
     }
 
-    /* small-screen padding */
+    /* bottom pocket */
+    .pocket{
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(135deg, rgba(225,29,72,.08), transparent 40%),
+        linear-gradient(225deg, rgba(225,29,72,.08), transparent 40%),
+        linear-gradient(180deg, rgba(255,255,255,.5), rgba(255,255,255,.0));
+    }
+
+    /* side triangles */
+    .leftTri, .rightTri{
+      position:absolute;
+      bottom:0;
+      width:0; height:0;
+      border-style:solid;
+      opacity:.95;
+    }
+    .leftTri{
+      left:0;
+      border-width:0 0 210px 260px;
+      border-color: transparent transparent rgba(225,29,72,.10) transparent;
+    }
+    .rightTri{
+      right:0;
+      border-width:0 260px 210px 0;
+      border-color: transparent transparent rgba(225,29,72,.10) transparent;
+    }
+
+    /* top flap */
+    .flap{
+      position:absolute;
+      left:0; right:0;
+      top:0;
+      height:0; width:0;
+      margin:auto;
+      border-left: 260px solid transparent;
+      border-right:260px solid transparent;
+      border-top:130px solid rgba(225,29,72,.14);
+      transform-origin: top center;
+      transform: rotateX(0deg);
+      transition: transform 900ms cubic-bezier(.2,.9,.2,1);
+      filter: drop-shadow(0 18px 22px rgba(225,29,72,.18));
+    }
+
+    /* seal */
+    .seal{
+      position:absolute;
+      left:50%;
+      top:110px;
+      transform: translateX(-50%);
+      width:52px; height:52px;
+      border-radius:999px;
+      background: radial-gradient(circle at 30% 30%, #fb7185, var(--accent));
+      box-shadow: 0 16px 40px rgba(225,29,72,.28);
+      display:grid;
+      place-items:center;
+      color:#fff;
+      font-size:20px;
+      border:1px solid rgba(255,255,255,.45);
+      transition: transform 600ms ease, opacity 400ms ease;
+    }
+
+    /* instruction glow */
+    .shine{
+      position:absolute;
+      inset:-60%;
+      background: radial-gradient(circle at 50% 40%, rgba(255,255,255,.55), transparent 55%);
+      opacity:.35;
+      transform: rotate(20deg);
+      pointer-events:none;
+    }
+
+    /* Open state */
+    .opened .flap{
+      transform: rotateX(170deg);
+    }
+    .opened .seal{
+      transform: translateX(-50%) scale(.9);
+      opacity:.0;
+    }
+    .opened .letterCard{
+      transform: translateY(-165px) scale(1);
+      opacity:1;
+    }
+
+    /* smooth entrance */
+    .letterCard{ will-change: transform, opacity; }
+
+    /* small screen tweaks */
     @media (max-width:520px){
       .content{ padding:18px; }
       header{ flex-direction:column; align-items:flex-start; }
+      .envelopeWrap{ height:380px; }
     }
   </style>
 </head>
 
 <body>
-  <!-- floating hearts layer -->
   <div class="hearts" aria-hidden="true" id="hearts"></div>
 
   <div class="wrap">
-    <article class="card">
-      <div class="glow"></div>
-      <div class="content">
-        <header>
-          <div>
-            <h1>A Letter for You</h1>
-            <div class="meta" id="dateLine"></div>
+    <section class="scene">
+      <h1 class="title">For You, With All My Heart</h1>
+      <p class="subtitle">A little message I’ve been holding close.</p>
+      <div class="tap">💌 Click the envelope to open</div>
+
+      <div class="envelopeWrap" id="scene">
+        <!-- Letter that slides out -->
+        <article class="letterCard" aria-label="Love letter">
+          <div class="glow"></div>
+          <div class="content">
+            <header>
+              <div>
+                <h2>A Letter for You</h2>
+                <div class="meta" id="dateLine"></div>
+              </div>
+              <div class="badge">💗 always & forever</div>
+            </header>
+
+            <!-- EDIT YOUR LETTER HERE -->
+            <div class="letter" id="letter">
+                Dear, Anne-Coralie Madison Cheron
+                My pookie lookie shoo my love I want fo say
+                And i love how amazing, perfect and different you are
+                That's why I give you everything I have; all my attention, all my time, all my energy, all my love and care, all my money too😂
+                I cherish and love you that's why I keep trying to understand the issue i have and work on them cause  you deserve my best 
+                You deserve me full best and
+                I will continue to love you unconditionally 
+                I don't care how much I've done for you I will keep doing more to show you how my I want you in my life as my forever partner 
+                And I sincerely apologize that on the day of the 14th it didn't go as you fantasize even if we ended up spending a goodnight together before we slept it was actually nice
+                But what I'm trying to say is I know you like to have fantasies here and there and the 14th is one of those days you like it to happen and it didn't as you imagined 
+                I know that and I know and understand why it didn't and I will from now on understand and change the things that cause it to happen 
+                And as for after 
+                I am going to make up for it by giving you a day sometime the end of this month (i wouldn't tell you when) so good you will forget about not having your fantasy 14th. I am doung this to continue to show that you are loved and cared for and you shouldn't have any doubts and so you wouldn't even think of being jealous about girls 
+                You live and you have an amazing life and I want to keep doing things to remind you of that
+                I AM THERE AND I WILL NEVER LEAVE I WILL GIVE YOU MY ALL 
+                Yours truly,
+                Elvis Josiah your Mimi
+            </div>
+
+            <!-- EDIT YOUR NAME HERE -->
+            <div class="signature">
+              <div class="sig-name">— Elvis</div>
+
+              <div class="actions">
+                <button type="button" id="copyBtn">Copy letter</button>
+              </div>
+            </div>
           </div>
-          <div class="badge">💗 always & forever</div>
-        </header>
+        </article>
 
-        <!-- EDIT YOUR LETTER HERE -->
-        <div class="letter" id="letter">
-            Dear, Anne-Coralie Madison Cheron
-            My pookie lookie shoo my love I want fo say
-            And i love how amazing, perfect and different you are
-            That's why I give you everything I have; all my attention, all my time, all my energy, all my love and care, all my money too😂
-            I cherish and love you that's why I keep trying to understand the issue i have and work on them cause  you deserve my best 
-            You deserve me full best and
-            I will continue to love you unconditionally 
-            I don't care how much I've done for you I will keep doing more to show you how my I want you in my life as my forever partner 
-            And I sincerely apologize that on the day of the 14th it didn't go as you fantasize even if we ended up spending a goodnight together before we slept it was actually nice
-            But what I'm trying to say is I know you like to have fantasies here and there and the 14th is one of those days you like it to happen and it didn't as you imagined 
-            I know that and I know and understand why it didn't and I will from now on understand and change the things that cause it to happen 
-            And as for after 
-            I am going to make up for it by giving you a day sometime the end of this month (i wouldn't tell you when) so good you will forget about not having your fantasy 14th. I am doung this to continue to show that you are loved and cared for and you shouldn't have any doubts and so you wouldn't even think of being jealous about girls 
-            You live and you have an amazing life and I want to keep doing things to remind you of that
-            I AM THERE AND I WILL NEVER LEAVE I WILL GIVE YOU MY ALL 
-            Yours truly,
-            Elvis Josiah your Mimi
-        </div>
-
-        <!-- EDIT YOUR NAME HERE -->
-        <div class="signature">
-          <div class="sig-name">— Elvis</div>
-
-          <div class="actions">
-            <button type="button" id="copyBtn">Copy letter</button>
-            <span class="hint">Tip: you can edit this page anytime.</span>
-          </div>
+        <!-- Envelope -->
+        <div class="envelope" id="envelope" role="button" aria-label="Open envelope" tabindex="0">
+          <div class="shine"></div>
+          <div class="pocket"></div>
+          <div class="leftTri"></div>
+          <div class="rightTri"></div>
+          <div class="flap"></div>
+          <div class="seal">❤</div>
         </div>
       </div>
-    </article>
+    </section>
   </div>
 
   <script>
@@ -260,27 +429,40 @@
       }
     });
 
-    // Floating hearts (subtle)
+    // Floating hearts
     const hearts = ["❤","💗","💖","💘","💕"];
     const container = document.getElementById("hearts");
-
     function spawnHeart(){
       const h = document.createElement("div");
       h.className = "heart";
       h.textContent = hearts[Math.floor(Math.random() * hearts.length)];
       h.style.left = Math.random() * 100 + "vw";
       h.style.animationDuration = (8 + Math.random() * 8) + "s";
-      h.style.fontSize = (14 + Math.random() * 14) + "px";
-      h.style.opacity = (0.25 + Math.random() * 0.35).toFixed(2);
+      h.style.fontSize = (14 + Math.random() * 16) + "px";
+      h.style.opacity = (0.22 + Math.random() * 0.38).toFixed(2);
       container.appendChild(h);
-
-      // remove after animation
       setTimeout(() => h.remove(), 17000);
     }
-
-    // start gentle
     for(let i=0;i<10;i++) setTimeout(spawnHeart, i * 400);
     setInterval(spawnHeart, 900);
+
+    // Envelope open/close
+    const scene = document.getElementById("scene");
+    const envelope = document.getElementById("envelope");
+
+    function toggleOpen(){
+      scene.classList.toggle("opened");
+    }
+    envelope.addEventListener("click", toggleOpen);
+    envelope.addEventListener("keydown", (e) => {
+      if(e.key === "Enter" || e.key === " "){
+        e.preventDefault();
+        toggleOpen();
+      }
+    });
+
+    // Auto-open slightly after load (romantic reveal). Comment out if you want manual only.
+    setTimeout(() => scene.classList.add("opened"), 900);
   </script>
 </body>
 </html>
